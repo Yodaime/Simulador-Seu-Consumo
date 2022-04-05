@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+
+  frontend:
+    image: seuconsumo/seuconsumo:simulador_frontend_${VERSION}
+    ports:
+      - 80
+    networks:
+      - traefik-public
+    healthcheck:
+      test: curl --fail http://localhost/healthcheck || exit 1
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.${STACK}_frontend.rule=${HOST}
+        - traefik.http.services.${STACK}_frontend.loadbalancer.server.port=80
+        - traefik.http.routers.${STACK}_frontend.tls=true
+        - traefik.http.routers.${STACK}_frontend.tls.certresolver=myhttpchallenge
+        - traefik.docker.lbswarm=true
+      replicas: ${REPLICAS}
+      update_config:
+        delay: 10s
+        failure_action: rollback
+      resources:
+        limits:
+          memory: 50MB
+ 
+networks:
+  traefik-public:
+    external: true
