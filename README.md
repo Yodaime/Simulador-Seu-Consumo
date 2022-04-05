@@ -14,9 +14,14 @@ Deixo o link de acesso para darem uma olhadinha no código e também a ferrament
 https://simulador.seuconsumo.com.br
 
 As ferramentas utilizadas foram: 
+
 Angular 9.1
+
 Zone.js
+
 TypeScript
+
 HTML
+
 Materialize
 
